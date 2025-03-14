@@ -1,10 +1,7 @@
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  Transport,
-} from "@nestjs/microservices";
+import { firstValueFrom } from "rxjs";
+import { ClientProxy } from "@nestjs/microservices";
 
-export function ValidateAuth(): MethodDecorator {
+export function ValidateAuth(options?: any): MethodDecorator {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -12,21 +9,33 @@ export function ValidateAuth(): MethodDecorator {
   ) => {
     const originalMethod = descriptor.value;
 
-    // Modify the method to add validation logic before execution
-    descriptor.value = function(...args: any[]) {
-      // Access headers in the context of the request
+    descriptor.value = async function(...args: any[]) {
       const [req] = args;
       const headers = req.headers;
-
-      console.log("Request headers:", headers);
-
-      // You can validate the headers or check for Authorization, etc.
       const authHeader = headers["authorization"];
       if (!authHeader) {
         throw new Error("Authorization header is missing");
       }
 
-      // If the headers are valid, proceed with the original method
+      // Inject umsRabbitClient dynamically during method execution
+      const umsRabbitClient: ClientProxy =
+        target.constructor.prototype["umsRabbitClient"];
+
+      if (!umsRabbitClient) {
+        throw new Error("RmqClient is missing");
+      }
+
+      const packet = {
+        access_token: authHeader,
+        options,
+      };
+
+      const messageResponse = await firstValueFrom(
+        umsRabbitClient.send("validate-authorization", packet),
+      );
+
+      console.log("messageResponse", messageResponse);
+
       return originalMethod.apply(this, args);
     };
 
