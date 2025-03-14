@@ -1,16 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "declaration": true,
     "outDir": "dist",
+    "module": "CommonJS",
+    "target": "ES6",
+    "declaration": true,
     "strict": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src"]
 }
