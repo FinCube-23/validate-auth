@@ -5,33 +5,31 @@ import {
 } from "@nestjs/microservices";
 
 export function ValidateAuth(): MethodDecorator {
-  return function (
+  return (
     target: any,
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
-  ): PropertyDescriptor {
-    console.log("decorator called");
+  ) => {
     const originalMethod = descriptor.value;
 
-    // descriptor.value = async function (...args: any[]) {
-    //   try {
-    //     // Send validation request and wait for response
-    //     const userId = args[0]; // Assuming the first argument is userId
-    //     const response = await client
-    //       .send("validate-authorization", { userId })
-    //       .toPromise();
-    //
-    //     if (response?.status === "success") {
-    //       return await originalMethod.apply(this, args);
-    //     } else {
-    //       throw new Error("Authorization failed");
-    //     }
-    //   } catch (error) {
-    //     console.error("Authorization error:", error);
-    //     throw error;
-    //   }
-    // };
-    //
+    // Modify the method to add validation logic before execution
+    descriptor.value = function(...args: any[]) {
+      // Access headers in the context of the request
+      const [req] = args;
+      const headers = req.headers;
+
+      console.log("Request headers:", headers);
+
+      // You can validate the headers or check for Authorization, etc.
+      const authHeader = headers["authorization"];
+      if (!authHeader) {
+        throw new Error("Authorization header is missing");
+      }
+
+      // If the headers are valid, proceed with the original method
+      return originalMethod.apply(this, args);
+    };
+
     return descriptor;
   };
 }
