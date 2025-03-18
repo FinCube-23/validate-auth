@@ -1,1 +1,1 @@
-export * from './validate-auth.decorator';
+export * from "./validate-auth";
