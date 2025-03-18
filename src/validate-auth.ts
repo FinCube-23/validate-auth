@@ -21,11 +21,13 @@ export async function validateAuth(
     options,
   };
 
-  const messageResponse = await firstValueFrom(
-    client.send("validate-authorization", packet),
-  );
+  try {
+    const res = await firstValueFrom(
+      client.send("validate-authorization", packet),
+    );
 
-  console.log("messageResponse", messageResponse);
-
-  return messageResponse; // you can return this response or handle it as needed
+    return res;
+  } catch (err: any) {
+    throw new Error(err);
+  }
 }
