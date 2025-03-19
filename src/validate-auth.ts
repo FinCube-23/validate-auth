@@ -17,7 +17,7 @@ export async function validateAuth(
   }
 
   const packet = {
-    access_token: authHeader,
+    access_token: authHeader.split(" ")[1],
     options,
   };
 
