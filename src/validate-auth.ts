@@ -7,7 +7,7 @@ export async function validateAuth(
   options?: any,
 ) {
   const headers = req.headers;
-  const authHeader = headers["authorization"];
+  const authHeader = headers["Authorization"];
   if (!authHeader) {
     throw new Error("Authorization header is missing");
   }
