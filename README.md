@@ -161,9 +161,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
-**@antonin686**
+- **@antonin686**
+- **@SampadSikder**
 
 ---
 

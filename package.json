@@ -30,8 +30,13 @@
     "middleware"
   ],
   "author": {
-    "name": "@antonin686"
+    "name": "antonin686"
   },
+  "contributors": [
+    {
+      "name": "SampadSikder"
+    }
+  ],
   "license": "ISC",
   "engines": {
     "node": ">=16.0.0"
