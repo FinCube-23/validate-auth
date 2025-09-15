@@ -1,6 +1,6 @@
 {
   "name": "@mskits/validate-auth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, TypeScript-ready authentication validation utility for NestJS microservices architecture",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
